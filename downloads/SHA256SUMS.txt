@@ -1,0 +1,2 @@
+893ac30775cf92d91150ed62b5850fad6d6e940a12bdd886ab4fbc496cdc4883  Codex-Pets-Native.zip
+74a3ec548ea12d34a4dbf633963e3a4719dfd4efe51985018dffdf4e3f5bcdf2  Codex-Pets-Windows.zip
