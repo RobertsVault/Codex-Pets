@@ -1,0 +1,397 @@
+{
+  "version": 1,
+  "cell": [
+    192,
+    208
+  ],
+  "pets": {
+    "mikan": {
+      "idle": {
+        "file": "mikan/states/idle.png",
+        "frames": 9,
+        "loopStart": 1,
+        "durationsMs": [
+          650,
+          300,
+          300,
+          180,
+          140,
+          180,
+          280,
+          300,
+          450
+        ]
+      },
+      "coding": {
+        "file": "mikan/states/coding.png",
+        "frames": 9,
+        "loopStart": 1,
+        "durationsMs": [
+          500,
+          160,
+          160,
+          160,
+          160,
+          180,
+          160,
+          160,
+          240
+        ]
+      },
+      "waiting": {
+        "file": "mikan/states/waiting.png",
+        "frames": 9,
+        "loopStart": 1,
+        "durationsMs": [
+          550,
+          200,
+          250,
+          280,
+          350,
+          350,
+          220,
+          220,
+          300
+        ]
+      },
+      "review": {
+        "file": "mikan/states/review.png",
+        "frames": 9,
+        "loopStart": 1,
+        "durationsMs": [
+          550,
+          220,
+          220,
+          300,
+          280,
+          350,
+          220,
+          220,
+          300
+        ]
+      },
+      "celebrate": {
+        "file": "mikan/states/celebrate.png",
+        "frames": 9,
+        "loopStart": 1,
+        "durationsMs": [
+          500,
+          120,
+          140,
+          160,
+          160,
+          180,
+          160,
+          140,
+          220
+        ]
+      },
+      "failed": {
+        "file": "mikan/states/failed.png",
+        "frames": 9,
+        "loopStart": 1,
+        "durationsMs": [
+          550,
+          200,
+          250,
+          400,
+          450,
+          450,
+          300,
+          250,
+          500
+        ]
+      },
+      "sleep": {
+        "file": "mikan/states/sleep.png",
+        "frames": 9,
+        "loopStart": 1,
+        "durationsMs": [
+          700,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          700
+        ]
+      },
+      "petting": {
+        "file": "mikan/states/petting.png",
+        "frames": 9,
+        "loopStart": 1,
+        "durationsMs": [
+          550,
+          200,
+          220,
+          250,
+          300,
+          300,
+          220,
+          220,
+          350
+        ]
+      },
+      "eating": {
+        "file": "mikan/states/eating.png",
+        "frames": 9,
+        "loopStart": 1,
+        "durationsMs": [
+          550,
+          200,
+          220,
+          250,
+          300,
+          300,
+          220,
+          220,
+          350
+        ]
+      },
+      "begging": {
+        "file": "mikan/states/begging.png",
+        "frames": 9,
+        "loopStart": 1,
+        "durationsMs": [
+          550,
+          200,
+          220,
+          250,
+          300,
+          300,
+          220,
+          220,
+          350
+        ]
+      },
+      "roll": {
+        "file": "mikan/states/roll.png",
+        "frames": 9,
+        "loopStart": 1,
+        "durationsMs": [
+          550,
+          200,
+          220,
+          250,
+          300,
+          300,
+          220,
+          220,
+          350
+        ]
+      },
+      "ball": {
+        "file": "mikan/states/ball.png",
+        "frames": 9,
+        "loopStart": 2,
+        "durationsMs": [
+          550,
+          200,
+          220,
+          250,
+          300,
+          300,
+          220,
+          220,
+          350
+        ]
+      }
+    },
+    "doubao": {
+      "idle": {
+        "file": "doubao/states/idle.png",
+        "frames": 9,
+        "loopStart": 1,
+        "durationsMs": [
+          650,
+          300,
+          300,
+          180,
+          140,
+          180,
+          280,
+          300,
+          450
+        ]
+      },
+      "coding": {
+        "file": "doubao/states/coding.png",
+        "frames": 9,
+        "loopStart": 1,
+        "durationsMs": [
+          500,
+          160,
+          160,
+          160,
+          160,
+          180,
+          160,
+          160,
+          240
+        ]
+      },
+      "waiting": {
+        "file": "doubao/states/waiting.png",
+        "frames": 9,
+        "loopStart": 1,
+        "durationsMs": [
+          550,
+          200,
+          250,
+          280,
+          350,
+          350,
+          220,
+          220,
+          300
+        ]
+      },
+      "review": {
+        "file": "doubao/states/review.png",
+        "frames": 9,
+        "loopStart": 1,
+        "durationsMs": [
+          550,
+          220,
+          220,
+          300,
+          280,
+          350,
+          220,
+          220,
+          300
+        ]
+      },
+      "celebrate": {
+        "file": "doubao/states/celebrate.png",
+        "frames": 9,
+        "loopStart": 1,
+        "durationsMs": [
+          500,
+          120,
+          140,
+          160,
+          160,
+          180,
+          160,
+          140,
+          220
+        ]
+      },
+      "failed": {
+        "file": "doubao/states/failed.png",
+        "frames": 9,
+        "loopStart": 1,
+        "durationsMs": [
+          550,
+          200,
+          250,
+          400,
+          450,
+          450,
+          300,
+          250,
+          500
+        ]
+      },
+      "sleep": {
+        "file": "doubao/states/sleep.png",
+        "frames": 9,
+        "loopStart": 1,
+        "durationsMs": [
+          700,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          700
+        ]
+      },
+      "petting": {
+        "file": "doubao/states/petting.png",
+        "frames": 9,
+        "loopStart": 1,
+        "durationsMs": [
+          550,
+          200,
+          220,
+          250,
+          300,
+          300,
+          220,
+          220,
+          350
+        ]
+      },
+      "eating": {
+        "file": "doubao/states/eating.png",
+        "frames": 9,
+        "loopStart": 1,
+        "durationsMs": [
+          550,
+          200,
+          220,
+          250,
+          300,
+          300,
+          220,
+          220,
+          350
+        ]
+      },
+      "begging": {
+        "file": "doubao/states/begging.png",
+        "frames": 9,
+        "loopStart": 1,
+        "durationsMs": [
+          550,
+          200,
+          220,
+          250,
+          300,
+          300,
+          220,
+          220,
+          350
+        ]
+      },
+      "roll": {
+        "file": "doubao/states/roll.png",
+        "frames": 9,
+        "loopStart": 1,
+        "durationsMs": [
+          550,
+          200,
+          220,
+          250,
+          300,
+          300,
+          220,
+          220,
+          350
+        ]
+      },
+      "ball": {
+        "file": "doubao/states/ball.png",
+        "frames": 9,
+        "loopStart": 2,
+        "durationsMs": [
+          550,
+          200,
+          220,
+          250,
+          300,
+          300,
+          220,
+          220,
+          350
+        ]
+      }
+    }
+  }
+}

@@ -17,6 +17,17 @@ foreach ($item in $candidates) {
     } catch { continue }
 }
 if (!$python) { throw 'Install Python 3.10+ with Tcl/Tk, then try again.' }
+if ($Mode -notin @('enable-hooks','disable-hooks')) {
+    $pillowReady = $false
+    try {
+        & $python @prefix -c 'from PIL import Image, ImageDraw, ImageFont' 2>$null
+        $pillowReady = ($LASTEXITCODE -eq 0)
+    } catch { $pillowReady = $false }
+    if (!$pillowReady) {
+        & $python @prefix -m pip install --user -r (Join-Path $PSScriptRoot 'requirements.txt')
+        if ($LASTEXITCODE -ne 0) { throw 'Pillow installation failed. Install requirements.txt and retry.' }
+    }
+}
 if ($Mode -in @('enable-hooks','disable-hooks')) {
     $options = @()
     if ($Mode -eq 'disable-hooks') { $options = @('--remove') }

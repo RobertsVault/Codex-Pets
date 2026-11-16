@@ -1,13 +1,13 @@
 # Privacy / 隐私说明
 
-Published source and edition ZIPs are assembled from an explicit file list. They exclude account configuration, hooks installed on a particular computer, credentials, chats, transcripts, runtime settings/events/logs, editor files, caches, generated source images, generation prompts, local inspection reports and developer runtime paths. PNGs carry no textual, EXIF or location metadata. Download ZIPs contain no Git history.
+发布源码和 ZIP 仅包含运行代码、素材、安装器、使用说明及许可证，不包含本机账户配置、凭证、聊天、transcript、运行设置／事件／日志、缓存、提示词、生成中间图或本机绝对路径。PNG 无文本、EXIF 或位置元数据；ZIP 无 Git 历史。
 
-发布源码与分版 ZIP 按明确清单组装，不包含账户配置、本机安装的 hooks、凭证、聊天、transcript、运行设置／事件／日志、编辑器文件、缓存、生成中间图、提示词、本地检查报告或开发运行时路径。PNG 不含文本、EXIF 或位置信息。下载 ZIP 不含 Git 历史。
+Published source and ZIPs contain runtime code, artwork, installers, user documentation and the license. They exclude local account configuration, credentials, chats, transcripts, settings/events/logs, caches, prompts, intermediate artwork and machine-specific absolute paths. PNGs contain no textual, EXIF or location metadata. ZIPs contain no Git history.
 
-The optional hook consumes lifecycle input but persists only a state, hashed session/task identifiers and time. It does not persist prompts, arguments, outputs, raw account/session identifiers or transcript paths. Runtime data and diagnostic logs remain on the user's computer; no network calls are made by the companion. Hashes are pseudonymous identifiers, not a claim of mathematical anonymity.
+可选 hooks 仅持久化状态、哈希化会话／任务标识与时间，不保存提示词、参数、输出、原始标识或 transcript 路径。哈希属于假名化标识。数据与错误日志留在用户本机，不包含在下载包内。程序运行时不联网；启动器首次安装 Pillow 时会访问 Python 软件包源。
 
-可选 hooks 只持久化状态、哈希化会话／任务标识和时间，不保存 prompt、参数、输出、原始账户／会话标识或 transcript 路径。运行数据和诊断日志留在用户本机，桌面伙伴不发送网络请求。哈希标识属于假名化处理，不代表数学意义上的匿名。
+Optional hooks persist only a state, hashed session/task identifiers and time, never prompts, arguments, outputs, raw identifiers or transcript paths. Hashes are pseudonymous identifiers. Runtime data and error logs stay on the user's machine and are excluded from downloads. Runtime makes no network requests; first-time Pillow installation contacts the Python package index.
 
-GitHub repository history and contributor identity are separate from downloadable package contents and are governed by the account's GitHub commit settings. The copyright notice in the existing MIT license is preserved.
+保留现有 MIT 许可证及其版权声明。仓库提交身份与包内容分开管理。
 
-GitHub 提交历史与贡献者身份不同于安装包内容，取决于账号的 GitHub 提交设置；保留现有 MIT 许可证中的版权声明。
+The existing MIT license and copyright notice are preserved. Repository commit attribution is separate from package contents.

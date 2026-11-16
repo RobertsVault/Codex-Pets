@@ -11,6 +11,12 @@ import tkinter as tk
 from events import EventReader, data_dir
 from state_engine import StateEngine, HOLD
 from i18n import tr, STATE_LABELS
+from expanded_animation import load_manifest,frame_index
+from alpha_window import AlphaWindow
+
+# Layered-window pixels and Tk geometry must use the same physical coordinates.
+if sys.platform=='win32':
+    ctypes.windll.user32.SetProcessDPIAware()
 
 APP=Path(__file__).resolve().parent
 LABELS={'idle':'待机陪伴','coding':'任务处理中','waiting':'等待输入／批准','review':'检查结果',
@@ -29,7 +35,6 @@ class Companion:
         self.root=tk.Tk()
         self.root.overrideredirect(True)
         self.root.configure(bg='#ff00ff')
-        self.root.wm_attributes('-transparentcolor','#ff00ff')
         self.root.attributes('-topmost',True)
         self.canvas=tk.Canvas(self.root,width=340,height=350,bg='#ff00ff',highlightthickness=0)
         self.canvas.pack()
@@ -43,8 +48,11 @@ class Companion:
         except (OSError,ValueError): pass
         preferred=language or self.settings.get('language','zh')
         self.language=tk.StringVar(value=preferred if preferred in ('zh','en') else 'zh')
+        saved_scale=self.settings.get('scale',2.0)
+        self.scale=tk.DoubleVar(value=saved_scale if saved_scale in (1,1.5,2) else 2.0)
         self.root.title(self.text('window',name=self.text('name_'+pet)))
         self.roaming=tk.BooleanVar(value=bool(self.settings.get('roaming',False)))
+        self.expanded=tk.BooleanVar(value=bool(self.settings.get('expanded',True)))
         self.gaze=tk.BooleanVar(value=bool(self.settings.get('gaze',True)))
         self.follow=tk.BooleanVar(value=True)
         self.topmost=tk.BooleanVar(value=True)
@@ -53,6 +61,7 @@ class Companion:
         self.drag_start=None
         self.affection=int(self.settings.get('affection',0))
         self.started=time.monotonic()
+        self.clip_epoch=self.started
         self.next_roam=self.started+10
         self.previous=None
         self.notice_key='hint'
@@ -63,6 +72,16 @@ class Companion:
         self.images={}
         self.frames=[]
         self.motion={}
+        self.expanded_clips=load_manifest(APP/'assets',pet)
+        self.expanded_frames={}
+        for state,clip in self.expanded_clips.items():
+            strip=tk.PhotoImage(file=str(APP/'assets/animations'/clip['file']))
+            frames=[]
+            for index in range(clip['frames']):
+                frame=tk.PhotoImage(width=192,height=208)
+                frame.tk.call(frame,'copy',strip,'-from',index*192,0,(index+1)*192,208,'-to',0,0)
+                frames.append(frame)
+            self.expanded_frames[state]=frames
         self.look_current=0
         self.look_changed=0
         self.look_seen=0
@@ -88,15 +107,16 @@ class Companion:
                     frames.append(frame)
                 self.frames.append(frames)
         self.sprite=self.canvas.create_image(170,180,anchor='center')
-        self.canvas.create_rectangle(18,288,322,349,fill='#fffaf4',outline='')
-        self.bubble_bg=self.canvas.create_rectangle(10,8,330,57,fill='#fffaf4',outline='',state='hidden')
+        self.bubble_bg=self.canvas.create_rectangle(10,8,330,57,fill='',outline='',state='hidden')
         self.title=self.canvas.create_text(170,305,text='',fill='#543c30',font=('Microsoft YaHei UI',12,'bold'))
         self.detail=self.canvas.create_text(170,330,text='',fill='#543c30',font=('Microsoft YaHei UI',9))
         self.bubble=self.canvas.create_text(170,32,text='',width=320,fill='#543c30',font=('Microsoft YaHei UI',10,'bold'))
         self.menu=self.make_menu()
-        x=max(0,min(int(self.settings.get('x',self.root.winfo_screenwidth()-370)),self.root.winfo_screenwidth()-340))
-        y=max(0,min(int(self.settings.get('y',self.root.winfo_screenheight()-420)),self.root.winfo_screenheight()-350))
-        self.root.geometry(f'340x350+{x}+{y}')
+        width,height=self.viewport_size()
+        self.canvas.configure(width=width,height=height)
+        x=max(0,min(int(self.settings.get('x',self.root.winfo_screenwidth()-width-30)),self.root.winfo_screenwidth()-width))
+        y=max(0,min(int(self.settings.get('y',self.root.winfo_screenheight()-height-70)),self.root.winfo_screenheight()-height))
+        self.root.geometry(f'{width}x{height}+{x}+{y}')
         self.canvas.bind('<ButtonPress-1>',self.drag_begin)
         self.canvas.bind('<B1-Motion>',self.drag_move)
         self.canvas.bind('<ButtonRelease-1>',self.drag_end)
@@ -108,6 +128,7 @@ class Companion:
         self.root.bind('<Escape>',lambda e:self.close())
         self.root.bind('<space>',lambda e:self.interact('petting'))
         if hidden:self.root.withdraw()
+        self.alpha_window=AlphaWindow(self.root,self.scale.get())
         self.tick()
         self.poll()
 
@@ -123,7 +144,12 @@ class Companion:
         menu.add_checkbutton(label=self.text('follow'),variable=self.follow,command=self.set_follow)
         menu.add_checkbutton(label=self.text('roam'),variable=self.roaming)
         menu.add_checkbutton(label=self.text('gaze'),variable=self.gaze)
+        menu.add_checkbutton(label=self.text('expanded'),variable=self.expanded,command=self.toggle_expanded)
         menu.add_checkbutton(label=self.text('topmost'),variable=self.topmost,command=lambda:self.root.attributes('-topmost',self.topmost.get()))
+        sizes=tk.Menu(menu,tearoff=False)
+        for value in (1,1.5,2):
+            sizes.add_radiobutton(label=f'{value:g}×',value=value,variable=self.scale,command=self.apply_scale)
+        menu.add_cascade(label=self.text('size'),menu=sizes)
         languages=tk.Menu(menu,tearoff=False)
         for value,label in (('zh','中文'),('en','English')):
             languages.add_radiobutton(label=label,value=value,variable=self.language,command=lambda:self.root.after_idle(self.apply_language))
@@ -134,6 +160,29 @@ class Companion:
 
     def text(self,key,**values):
         return tr(self.language.get(),key,**values)
+
+    def viewport_size(self):
+        return round(340*self.scale.get()),round(350*self.scale.get())
+
+    def apply_scale(self):
+        old=self.alpha_window.scale
+        new=self.scale.get()
+        width,height=self.viewport_size()
+        x=round(self.root.winfo_x()+170*(old-new))
+        y=round(self.root.winfo_y()+180*(old-new))
+        x=max(0,min(x,self.root.winfo_screenwidth()-width))
+        y=max(0,min(y,self.root.winfo_screenheight()-height))
+        self.canvas.configure(width=width,height=height)
+        self.root.geometry(f'{width}x{height}+{x}+{y}')
+        self.alpha_window.set_scale(new)
+        self.root.update_idletasks()
+        if self.alpha_window.last_args:
+            self.alpha_window.present(*self.alpha_window.last_args)
+        self.save_settings()
+
+    def toggle_expanded(self):
+        self.clip_epoch=time.monotonic()
+        self.save_settings()
 
     def apply_language(self):
         # Change presentation only: retain tasks, animation phase and hold timers.
@@ -156,6 +205,7 @@ class Companion:
             self.notice('result_first')
             return
         self.engine.interact(state)
+        self.clip_epoch=time.monotonic()
         self.affection+=1
         self.notice('state_'+state)
 
@@ -166,6 +216,7 @@ class Companion:
         self.engine.reset()
         if state in ('coding','waiting'): self.engine.interact(state,seconds=10**9)
         elif state!='idle': self.engine.interact(state)
+        self.clip_epoch=time.monotonic()
         self.notice('demo_notice')
 
     def set_follow(self):
@@ -205,8 +256,9 @@ class Companion:
         x,y,wx,wy=self.drag_start
         dx,dy=event.x_root-x,event.y_root-y
         self.drag_distance=max(self.drag_distance,abs(dx)+abs(dy))
-        nx=max(0,min(wx+dx,self.root.winfo_screenwidth()-340))
-        ny=max(0,min(wy+dy,self.root.winfo_screenheight()-350))
+        width,height=self.viewport_size()
+        nx=max(0,min(wx+dx,self.root.winfo_screenwidth()-width))
+        ny=max(0,min(wy+dy,self.root.winfo_screenheight()-height))
         self.root.geometry(f'+{nx}+{ny}')
 
     def drag_end(self,event):
@@ -233,8 +285,12 @@ class Companion:
             self.next_roam=now+random.uniform(12,18)
             display=self.engine.update()
         state=display.state
-        if state!=self.previous:self.started=now;self.previous=state
-        if state in ('run','trot'):
+        if state!=self.previous:self.started=now;self.clip_epoch=now;self.previous=state
+        clip_state={'curious':'review','sniff':'review'}.get(state,state)
+        if self.expanded.get() and clip_state in self.expanded_clips:
+            index=frame_index(self.expanded_clips[clip_state],now-self.clip_epoch)
+            image=self.expanded_frames[clip_state][index]
+        elif state in ('run','trot'):
             frames=self.motion['run-left' if self.direction<0 else 'run']
             image=frames[int((now-self.started)*(8 if state=='run' else 5))%8]
         elif self.pet=='doubao':
@@ -246,10 +302,10 @@ class Companion:
             if state in ('run','trot') and self.direction<0:row=2
             frames=self.frames[row]
             image=frames[int((now-self.started)*6)%len(frames)]
-        if state=='idle' and self.gaze.get() and not self.dragging:
+        if state=='idle' and self.gaze.get() and not self.dragging and (not self.expanded.get() or now-self.clip_epoch>=3):
             px,py=self.root.winfo_pointerxy()
-            dx=px-(self.root.winfo_x()+170)
-            dy=py-(self.root.winfo_y()+180)
+            dx=px-(self.root.winfo_x()+170*self.scale.get())
+            dy=py-(self.root.winfo_y()+180*self.scale.get())
             if 12<math.hypot(dx,dy)<500:
                 target=int(math.floor(((math.degrees(math.atan2(dx,-dy))+360)%360)/22.5+.5))%16
                 self.look_seen=now
@@ -263,8 +319,8 @@ class Companion:
         self.canvas.itemconfigure(self.sprite,image=image)
         self.canvas.coords(self.sprite,170,180+math.sin((now-self.started)*4)*3)
         if state in ('run','trot') and not self.dragging:
-            x=self.root.winfo_x()+(4 if state=='run' else 2)*self.direction
-            limit=max(0,self.root.winfo_screenwidth()-340)
+            x=self.root.winfo_x()+round((4 if state=='run' else 2)*self.scale.get())*self.direction
+            limit=max(0,self.root.winfo_screenwidth()-self.viewport_size()[0])
             if x<=0 or x>=limit:self.direction*=-1
             self.root.geometry(f'+{max(0,min(x,limit))}+{self.root.winfo_y()}')
         label=self.text('state_'+state)
@@ -275,6 +331,8 @@ class Companion:
         self.canvas.itemconfigure(self.detail,text=self.text('follow_status' if self.follow.get() else 'demo_status')+self.text('affection',value=self.affection))
         self.canvas.itemconfigure(self.bubble,text=self.text(self.notice_key) if now<self.notice_until else '')
         self.canvas.itemconfigure(self.bubble_bg,state='normal' if now<self.notice_until else 'hidden')
+        self.alpha_window.present(image,180+math.sin((now-self.started)*4)*3,
+            label,self.canvas.itemcget(self.detail,'text'),self.canvas.itemcget(self.bubble,'text'))
         self.after_jobs.append(self.root.after(50,self.tick))
         # Keep only live timer IDs for orderly shutdown.
         if len(self.after_jobs)>100:self.after_jobs=[x for x in self.after_jobs if x in self.root.tk.call('after','info')]
@@ -287,6 +345,7 @@ class Companion:
             try:self.root.after_cancel(job)
             except tk.TclError:pass
         self.save_settings()
+        self.alpha_window.close()
         self.root.destroy()
 
     def save_settings(self):
@@ -295,7 +354,7 @@ class Companion:
         target=self.settings_path.with_suffix('.'+uuid.uuid4().hex+'.tmp')
         target.write_text(json.dumps({'x':self.root.winfo_x(),'y':self.root.winfo_y(),
             'affection':self.affection,'roaming':self.roaming.get(),'gaze':self.gaze.get(),
-            'language':self.language.get()}),encoding='utf-8')
+            'language':self.language.get(),'expanded':self.expanded.get(),'scale':self.scale.get()}),encoding='utf-8')
         os.replace(target,self.settings_path)
 
 _mutex=None
