@@ -26,16 +26,14 @@ class EventReader:
     def __init__(self):
         self.folder=data_dir()/'events'
         self.since=time.time()  # Never replay historical task states at startup.
-        self.seen={path.name for path in self.folder.glob('*.json')}
+        self.seen=set()
 
     def poll(self):
         result=[]
         for path in self.folder.glob('*.json'):
             if path.name in self.seen: continue
             try:
-                with path.open(encoding='utf-8') as stream: raw=stream.read(4097)
-                if len(raw)>4096:continue
-                value=json.loads(raw)
+                value=json.loads(path.read_text(encoding='utf-8'))
                 if not isinstance(value,dict): continue
                 stamp=value.get('at')
                 if not isinstance(stamp,(int,float)) or isinstance(stamp,bool) or not math.isfinite(stamp):continue
@@ -45,5 +43,5 @@ class EventReader:
                     'idle','coding','waiting','review','celebrate','failed'}:
                     if isinstance(value.get('task'),str): result.append(value)
                 self.seen.add(path.name)
-            except (OSError,ValueError,TypeError,RecursionError): pass
+            except (OSError,ValueError,TypeError): pass
         return sorted(result,key=lambda x:(x['at'],x['id']))

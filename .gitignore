@@ -10,5 +10,3 @@ pet_state.json
 events/
 hooks.json
 hooks.json.backup-*
-build/
-dist/

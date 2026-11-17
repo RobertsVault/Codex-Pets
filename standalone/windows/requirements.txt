@@ -1,2 +1,1 @@
-Pillow==13.0.0
-defusedxml==0.7.1
+Pillow>=10.4
