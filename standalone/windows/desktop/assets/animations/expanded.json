@@ -20,7 +20,9 @@
           280,
           300,
           450
-        ]
+        ],
+        "anchorPixelSha256": "53ce019d3cb4330be60be3d37d6693a4280d80ff1c72d18623d8d9600c85a204",
+        "originalFrameRetained": true
       },
       "coding": {
         "file": "mikan/states/coding.png",
@@ -36,7 +38,9 @@
           160,
           160,
           240
-        ]
+        ],
+        "anchorPixelSha256": "d39b62325d77ca6b8f2698e3daf3cdbbec8b587ddf5e776b169d61496b87f4b4",
+        "originalFrameRetained": true
       },
       "waiting": {
         "file": "mikan/states/waiting.png",
@@ -52,7 +56,9 @@
           220,
           220,
           300
-        ]
+        ],
+        "anchorPixelSha256": "1ff0327529d3d6b947c66a4056f960f73ae3177b33e1871e5e6f94578f728cec",
+        "originalFrameRetained": true
       },
       "review": {
         "file": "mikan/states/review.png",
@@ -68,7 +74,9 @@
           220,
           220,
           300
-        ]
+        ],
+        "anchorPixelSha256": "8be61d55f1aea85b53aa91bc3d7f75e3bc2c641bf13026e86f29228dd6f3a417",
+        "originalFrameRetained": true
       },
       "celebrate": {
         "file": "mikan/states/celebrate.png",
@@ -84,7 +92,9 @@
           160,
           140,
           220
-        ]
+        ],
+        "anchorPixelSha256": "ddeae1f8838368ac329438745a4b6c0881bdb63d73aee94b3b0e811d9f94c48c",
+        "originalFrameRetained": true
       },
       "failed": {
         "file": "mikan/states/failed.png",
@@ -100,7 +110,9 @@
           300,
           250,
           500
-        ]
+        ],
+        "anchorPixelSha256": "995814bc6a1729287bd1e00e8dcdb595f2dbb888da77058dfdafed83da4e5ed8",
+        "originalFrameRetained": true
       },
       "sleep": {
         "file": "mikan/states/sleep.png",
@@ -132,7 +144,9 @@
           220,
           220,
           350
-        ]
+        ],
+        "anchorPixelSha256": "55085effc69e790c35b459f537c9f1bdd41545b7b9332967ab44e03c0903ce93",
+        "originalFrameRetained": true
       },
       "eating": {
         "file": "mikan/states/eating.png",
@@ -148,7 +162,9 @@
           220,
           220,
           350
-        ]
+        ],
+        "anchorPixelSha256": "1a2be8c22c1e76acd67758fc39b96ba1f7587e8a4269fd3d5a4775b1a2208159",
+        "originalFrameRetained": false
       },
       "begging": {
         "file": "mikan/states/begging.png",
@@ -164,7 +180,9 @@
           220,
           220,
           350
-        ]
+        ],
+        "anchorPixelSha256": "5dc486f6fe1b83c742454b293df66f2e72a16689b579cd12e1e19a8aecf496f7",
+        "originalFrameRetained": false
       },
       "roll": {
         "file": "mikan/states/roll.png",
@@ -180,7 +198,9 @@
           220,
           220,
           350
-        ]
+        ],
+        "anchorPixelSha256": "e71634b74854953c9c10b4c14d5d2f0cb10372e38d2f54d9e9e281be26ef233c",
+        "originalFrameRetained": false
       },
       "ball": {
         "file": "mikan/states/ball.png",
@@ -196,7 +216,9 @@
           220,
           220,
           350
-        ]
+        ],
+        "anchorPixelSha256": "a39267f54e3df18e01cad5be97b24a52c96ebdabd080b6083388cb7528abeb31",
+        "originalFrameRetained": false
       }
     },
     "doubao": {
@@ -214,7 +236,9 @@
           280,
           300,
           450
-        ]
+        ],
+        "anchorPixelSha256": "42009080638f196b643a3833941b5f3c9b0293ca24752b28ab5d571cf6a5896f",
+        "originalFrameRetained": true
       },
       "coding": {
         "file": "doubao/states/coding.png",
@@ -230,7 +254,9 @@
           160,
           160,
           240
-        ]
+        ],
+        "anchorPixelSha256": "b72b0237601be65e1b6e661aba32097a470bdd971f8032abb71e75c1380655af",
+        "originalFrameRetained": true
       },
       "waiting": {
         "file": "doubao/states/waiting.png",
@@ -246,7 +272,9 @@
           220,
           220,
           300
-        ]
+        ],
+        "anchorPixelSha256": "5f338c0073274a84fcb10f2e910ab5ff34e4f3cb1ed17951bec1d07d9e5c3346",
+        "originalFrameRetained": true
       },
       "review": {
         "file": "doubao/states/review.png",
@@ -262,7 +290,9 @@
           220,
           220,
           300
-        ]
+        ],
+        "anchorPixelSha256": "d22cbaeefc029f41e84fd37245cc149c7cccde921fe74c063d11e4e55db93ca1",
+        "originalFrameRetained": true
       },
       "celebrate": {
         "file": "doubao/states/celebrate.png",
@@ -278,7 +308,9 @@
           160,
           140,
           220
-        ]
+        ],
+        "anchorPixelSha256": "420dcdeeb4adf7b314a32841604c7df3f2af2cc10ebf548629a1bb5eff42989a",
+        "originalFrameRetained": true
       },
       "failed": {
         "file": "doubao/states/failed.png",
@@ -294,7 +326,9 @@
           300,
           250,
           500
-        ]
+        ],
+        "anchorPixelSha256": "3b33f72142512508ca04cdb2ae7c629cb6ea576a658d1786a21e63d091b9e1c0",
+        "originalFrameRetained": true
       },
       "sleep": {
         "file": "doubao/states/sleep.png",
@@ -326,7 +360,9 @@
           220,
           220,
           350
-        ]
+        ],
+        "anchorPixelSha256": "07f8ff7cac8738be4fbce916d7dbe834ab5fc1300a5dd977ffcfb838f1d5b699",
+        "originalFrameRetained": true
       },
       "eating": {
         "file": "doubao/states/eating.png",
@@ -342,7 +378,9 @@
           220,
           220,
           350
-        ]
+        ],
+        "anchorPixelSha256": "51e03c881906acea98bd1f821482abce4af993d739032b961d5f3a5f487b42db",
+        "originalFrameRetained": true
       },
       "begging": {
         "file": "doubao/states/begging.png",
@@ -358,7 +396,9 @@
           220,
           220,
           350
-        ]
+        ],
+        "anchorPixelSha256": "5f338c0073274a84fcb10f2e910ab5ff34e4f3cb1ed17951bec1d07d9e5c3346",
+        "originalFrameRetained": true
       },
       "roll": {
         "file": "doubao/states/roll.png",
@@ -374,7 +414,9 @@
           220,
           220,
           350
-        ]
+        ],
+        "anchorPixelSha256": "414c4ba5a0d19059cb27e4950875003bbda8cb70e8b7069cae295bfd03221b48",
+        "originalFrameRetained": true
       },
       "ball": {
         "file": "doubao/states/ball.png",
@@ -390,7 +432,9 @@
           220,
           220,
           350
-        ]
+        ],
+        "anchorPixelSha256": "f26466a1d0e09424407ec5caa523b2bb3750d5c80fed13602fa54afbac4ff146",
+        "originalFrameRetained": true
       }
     }
   }

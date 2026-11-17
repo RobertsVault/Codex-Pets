@@ -6,6 +6,18 @@ from pathlib import Path
 import os
 from PIL import Image, ImageChops, ImageDraw, ImageFont
 
+FONT_ASSETS=Path(__file__).resolve().parent/'assets/fonts'
+
+def register_private_fonts():
+    if os.name=='nt':
+        gdi=C.WinDLL('gdi32',use_last_error=True)
+        gdi.AddFontResourceExW.argtypes=[W.LPCWSTR,W.DWORD,C.c_void_p]
+        for name in ('PetsCJK-Regular.ttf','PetsCJK-Bold.ttf'):
+            file=FONT_ASSETS/name
+            if file.is_file():gdi.AddFontResourceExW(str(file),0x10,None)
+    folder=Path(os.environ.get('WINDIR',os.environ.get('SYSTEMROOT','/Windows')))/'Fonts'
+    return 'Microsoft YaHei UI' if (folder/'msyh.ttc').is_file() else 'Pets CJK'
+
 
 def clean_sprite(image):
     image = image.convert('RGBA').copy()
@@ -98,7 +110,9 @@ class AlphaWindow:
         key = (size, bold)
         if key not in self.fonts:
             folder = Path(os.environ.get('WINDIR', os.environ.get('SYSTEMROOT', '/Windows'))) / 'Fonts'
-            self.fonts[key] = ImageFont.truetype(str(folder / ('msyhbd.ttc' if bold else 'msyh.ttc')), size)
+            file=folder/('msyhbd.ttc' if bold else 'msyh.ttc')
+            if not file.is_file():file=FONT_ASSETS/('PetsCJK-Bold.ttf' if bold else 'PetsCJK-Regular.ttf')
+            self.fonts[key] = ImageFont.truetype(str(file), size)
         return self.fonts[key]
 
     def compose(self, photo, y, title, detail, bubble):
