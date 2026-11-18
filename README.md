@@ -15,7 +15,7 @@
 | macOS 独立版 / macOS companion | 预留，尚未实现 / Planned, not implemented | [macOS](standalone/macos/README.md) |
 | iOS 版 / iOS companion | 预留，尚未实现 / Planned, not implemented | [iOS](standalone/ios/README.md) |
 
-[SHA-256 校验 / Checksums](downloads/SHA256SUMS.txt) · [仓库内下载 / Repository downloads](downloads/) · [MIT License](LICENSE) · [隐私说明 / Privacy](PRIVACY.md)
+[SHA-256 校验 / Checksums](downloads/SHA256SUMS.txt) · [仓库内下载 / Repository downloads](downloads/) · [MIT License](LICENSE)
 
 ### 动画 / Animations
 
