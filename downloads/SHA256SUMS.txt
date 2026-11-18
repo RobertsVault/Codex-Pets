@@ -1,2 +1,0 @@
-b975fe83f298835afea532ebfd845de7c9a1ae6d25592500f9d2190929d869c4  Codex-Pets-Native.zip
-8570be0de2a4a16acd748f1b4fc9961cdb1197c1a4550317c801052a8aee9728  Codex-Pets-Windows.zip

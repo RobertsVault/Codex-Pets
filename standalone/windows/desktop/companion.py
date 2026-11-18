@@ -12,7 +12,7 @@ from events import EventReader, data_dir
 from state_engine import StateEngine, HOLD
 from i18n import tr, STATE_LABELS
 from expanded_animation import load_manifest,frame_index
-from alpha_window import AlphaWindow
+from alpha_window import AlphaWindow,register_private_fonts
 
 # Layered-window pixels and Tk geometry must use the same physical coordinates.
 if sys.platform=='win32':
@@ -32,6 +32,7 @@ DOG={'idle':'idle','coding':'coding','celebrate':'celebrate','sleep':'sleep','pe
 class Companion:
     def __init__(self,pet='doubao',hidden=False,language=None):
         self.pet=pet
+        self.ui_font=register_private_fonts()
         self.root=tk.Tk()
         self.root.overrideredirect(True)
         self.root.configure(bg='#ff00ff')
@@ -108,9 +109,9 @@ class Companion:
                 self.frames.append(frames)
         self.sprite=self.canvas.create_image(170,180,anchor='center')
         self.bubble_bg=self.canvas.create_rectangle(10,8,330,57,fill='',outline='',state='hidden')
-        self.title=self.canvas.create_text(170,305,text='',fill='#543c30',font=('Microsoft YaHei UI',12,'bold'))
-        self.detail=self.canvas.create_text(170,330,text='',fill='#543c30',font=('Microsoft YaHei UI',9))
-        self.bubble=self.canvas.create_text(170,32,text='',width=320,fill='#543c30',font=('Microsoft YaHei UI',10,'bold'))
+        self.title=self.canvas.create_text(170,305,text='',fill='#543c30',font=(self.ui_font,12,'bold'))
+        self.detail=self.canvas.create_text(170,330,text='',fill='#543c30',font=(self.ui_font,9))
+        self.bubble=self.canvas.create_text(170,32,text='',width=320,fill='#543c30',font=(self.ui_font,10,'bold'))
         self.menu=self.make_menu()
         width,height=self.viewport_size()
         self.canvas.configure(width=width,height=height)
@@ -133,7 +134,7 @@ class Companion:
         self.poll()
 
     def make_menu(self):
-        menu=tk.Menu(self.root,tearoff=False,font=('Microsoft YaHei UI',10))
+        menu=tk.Menu(self.root,tearoff=False,font=(self.ui_font,10))
         for state in ('petting','eating','ball','begging','roll','run','trot','sniff','sleep'):
             menu.add_command(label=self.text('minimum',name=self.text('state_'+state),seconds=HOLD[state]),command=lambda s=state:self.interact(s))
         demo=tk.Menu(menu,tearoff=False)

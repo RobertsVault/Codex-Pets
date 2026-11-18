@@ -4,7 +4,7 @@ $Destination = [System.IO.Path]::GetFullPath($Destination)
 $backupRoot = Join-Path (Split-Path $Destination -Parent) 'pet-backups'
 foreach ($name in @('mikan', 'doubao')) {
     $source = Join-Path $PSScriptRoot "pets/$name"
-    $manifest = Get-Content -LiteralPath (Join-Path $source 'pet.json') -Raw | ConvertFrom-Json
+    $manifest = Get-Content -LiteralPath (Join-Path $source 'pet.json') -Raw -Encoding UTF8 | ConvertFrom-Json
     if ($manifest.spriteVersionNumber -ne 2 -or !(Test-Path -LiteralPath (Join-Path $source $manifest.spritesheetPath))) {
         throw "Invalid pet package: $name"
     }

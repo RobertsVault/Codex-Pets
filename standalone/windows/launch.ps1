@@ -1,4 +1,4 @@
-param([ValidateSet('mikan','doubao','enable-hooks','disable-hooks')][string]$Mode = 'doubao', [ValidateSet('auto','zh','en')][string]$Language = 'auto')
+﻿param([ValidateSet('mikan','doubao','enable-hooks','disable-hooks')][string]$Mode = 'doubao', [ValidateSet('auto','zh','en')][string]$Language = 'auto')
 $ErrorActionPreference = 'Stop'
 $python = $null
 $prefix = @()
@@ -12,11 +12,11 @@ if ($candidate -and $candidate.Source -notmatch '\\Microsoft\\WindowsApps\\') {
 foreach ($item in $candidates) {
     $testPrefix = $item.Prefix
     try {
-        & $item.Path @testPrefix -c 'import sys, tkinter; assert sys.version_info >= (3,10)' 2>$null
+        & $item.Path @testPrefix -c 'import sys, tkinter; assert sys.version_info >= (3,11)' 2>$null
         if ($LASTEXITCODE -eq 0) { $python = $item.Path; $prefix = $item.Prefix; break }
     } catch { continue }
 }
-if (!$python) { throw 'Install Python 3.10+ with Tcl/Tk, then try again.' }
+if (!$python) { throw 'Install Python 3.11+ with Tcl/Tk, then try again.' }
 if ($Mode -notin @('enable-hooks','disable-hooks')) {
     $pillowReady = $false
     try {
